@@ -96,7 +96,7 @@ function initializeProductDetails() {
 
   if (!product) {
     document.getElementById('product-not-found').hidden = false;
-    document.title = 'Modelo não encontrado | Ótica Visão';
+    document.title = 'Modelo não encontrado | Ótica';
     return;
   }
 
@@ -109,8 +109,7 @@ function initializeProductDetails() {
   document.getElementById('detail-shape').textContent = product.shape;
   document.getElementById('detail-color').textContent = product.color;
   document.getElementById('detail-back').href = `index.html#${product.category}`;
-  document.getElementById('detail-contact').setAttribute('aria-label', `Consultar o estilo ${product.name} no Instagram`);
-  document.title = `${product.name} | Ótica Visão`;
+  document.title = `${product.name} | Ótica`;
   detailsSection.hidden = false;
 }
 
