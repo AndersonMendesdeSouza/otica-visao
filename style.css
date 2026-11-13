@@ -570,12 +570,10 @@ p {
 }
 
 .collection-card {
+  display: flex;
+  flex-direction: column;
   min-width: 0;
   scroll-margin-top: 130px;
-}
-
-.collection-card > a {
-  display: block;
 }
 
 .collection-image {
@@ -591,29 +589,76 @@ p {
   transition: transform .45s;
 }
 
-.collection-card:hover .collection-image img {
+.carousel-slide:hover img {
   transform: scale(1.035);
 }
 
-.collection-arrow {
-  position: absolute;
-  right: 15px;
-  bottom: 15px;
-  width: 34px;
-  height: 34px;
+.carousel-track {
+  display: flex;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.carousel-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  overflow: hidden;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.carousel-slide:focus-visible {
+  outline-offset: -4px;
+}
+
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.carousel-controls button {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 253, 247, .91);
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
   border-radius: 50%;
+  background: transparent;
+  color: var(--ink);
+  transition: background .2s, border-color .2s;
 }
 
-.collection-arrow .icon {
-  width: 15px;
-  height: 15px;
+.carousel-controls button:hover {
+  background: var(--cream);
+  border-color: var(--orange);
+}
+
+.carousel-controls .icon {
+  width: 17px;
+  height: 17px;
+}
+
+.carousel-controls .carousel-previous .icon {
+  transform: rotate(180deg);
+}
+
+.carousel-controls p {
+  font-size: 11px;
 }
 
 .collection-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   padding: 23px 2px 0;
 }
 
@@ -640,6 +685,16 @@ p {
   line-height: 1.9;
 }
 
+.collection-info .collection-model {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.collection-info [data-product-description] {
+  flex: 1;
+}
+
 .collection-cta {
   display: flex;
   align-items: center;
@@ -657,7 +712,7 @@ p {
   height: 16px;
 }
 
-.collection-card:hover .collection-cta {
+.collection-cta:hover {
   color: var(--orange);
 }
 
@@ -1070,6 +1125,86 @@ p {
   transform: translateY(-2px);
 }
 
+.product-details {
+  min-height: 65vh;
+  padding-top: 40px;
+}
+
+.product-details-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 72px;
+  align-items: center;
+  margin-top: 36px;
+}
+
+.product-details-visual {
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 5px;
+  background: #e8dfd0;
+}
+
+.product-details-visual img {
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.product-details-copy .eyebrow {
+  margin-bottom: 18px;
+}
+
+.product-details-copy h1 {
+  font-size: clamp(48px, 5vw, 70px);
+}
+
+#detail-description {
+  margin-top: 22px;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
+.product-specs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-block: 28px 24px;
+  padding-block: 20px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.product-specs dt {
+  margin-bottom: 5px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.product-specs dd {
+  margin: 0;
+  font-size: 14px;
+}
+
+.product-details-note {
+  max-width: 420px;
+  margin-bottom: 25px;
+  font-size: 12px;
+  line-height: 1.9;
+}
+
+.product-not-found {
+  min-height: 60vh;
+}
+
+.product-not-found h1 {
+  margin-block: 20px;
+  font-size: clamp(42px, 5vw, 64px);
+}
+
+.product-not-found .button {
+  margin-top: 26px;
+}
+
 @media (min-width: 1500px) {
   .hero {
     padding-block: 50px 60px;
@@ -1359,13 +1494,6 @@ p {
     gap: 5px;
   }
 
-  .collection-arrow {
-    right: 10px;
-    bottom: 10px;
-    width: 28px;
-    height: 28px;
-  }
-
   .essence-grid {
     gap: 45px;
   }
@@ -1457,6 +1585,18 @@ p {
 
   .footer-instagram {
     width: 100%;
+  }
+
+  .product-details-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .product-details-visual,
+  .product-details-copy {
+    width: 100%;
+    max-width: 640px;
+    margin-inline: auto;
   }
 }
 
@@ -1669,13 +1809,6 @@ p {
   .collection-cta {
     margin-top: 16px;
     font-size: 11px;
-  }
-
-  .collection-arrow {
-    width: 34px;
-    height: 34px;
-    right: 14px;
-    bottom: 14px;
   }
 
   .image-note {
